@@ -25,6 +25,7 @@ types:
   ErrorResponse: ApiStandards.ErrorResponse
   CollectionResponseEnvelope: !include dataTypes/CollectionResponseEnvelope.raml
   ItemResponseEnvelope: !include dataTypes/ItemResponseEnvelope.raml
+  SpeedSetting: !include dataTypes/SpeedSetting.raml
 
   ZonesEnvelope:
     type: CollectionResponseEnvelope
@@ -66,6 +67,11 @@ types:
     properties:
       data:
         type: WafRule[]
+  SpeedSettingsEnvelope:
+    type: ItemResponseEnvelope
+    properties:
+      data:
+        type: SpeedSetting
 
 traits:
   hasUnauthorizedResponse: !include traits/HasUnauthorizedResponse.raml
@@ -115,7 +121,7 @@ securedBy:
     /{groupId}:
       put:
         is: [hasUnauthorizedResponse, hasForbiddenAccessResponse, hasInternalServerErrorResponse, hasBadRequestResponse]
-        displayName: updateWafGroup
+        displayName: updateWafGroupById
         description: Update action or mode of a specific WAF group.
         body:
           application/json:
@@ -164,7 +170,7 @@ securedBy:
                 example: !include /examples/waf/wafrule-get-response.raml
       put:
         is: [hasBadRequestResponse]
-        displayName: updateWafRule
+        displayName: updateWafRuleById
         description: Update action of a specific WAF rule.
         body:
           application/json:
@@ -213,7 +219,7 @@ securedBy:
       is: [hasUnauthorizedResponse, hasForbiddenAccessResponse, hasInternalServerErrorResponse]
       get:
         is: [hasResourceNotFoundResponse]
-        displayName: getFirewallRule
+        displayName: getFirewallRuleById
         description: Retrieve a specific firewall rule.
         responses:
           '200':
@@ -224,7 +230,7 @@ securedBy:
                 example: !include /examples/firewall/firewall-rule-get-response.raml
       put:
         is: [hasBadRequestResponse]
-        displayName: updateFirewallRule
+        displayName: updateFirewallRuleById
         description: Update a specific firewall rule.
         body:
           application/json:
@@ -246,3 +252,33 @@ securedBy:
         responses:
           '204':
             description: Successfully deleted the firewall rule specified by the caller.
+  
+  /zones/{zoneId}/speed-settings:
+    is: [hasResourceNotFoundResponse, hasUnauthorizedResponse, hasForbiddenAccessResponse, hasInternalServerErrorResponse]
+    get:
+      displayName: getSpeedSettingsById
+      description: Retrieve speed settings for a zone.
+      responses:
+        '200':
+          description: Successfully returned back speed settings requested by the caller.
+          body:
+            application/json:
+              type: SpeedSettingsEnvelope
+              example: !include /examples/zone/speed-settings-response.raml
+    patch:
+      is: [hasBadRequestResponse]
+      displayName: patchSpeedSettingsById
+      description: Update speed settings for a zone.
+
+      body:
+        application/json:
+          type: SpeedSetting
+          example: !include /examples/zone/speed-settings-patch-request.raml
+
+      responses:
+        '200':
+          description: Successfully updated speed settings requested by the caller.
+          body:
+            application/json:
+              type: SpeedSettingsEnvelope
+              example: !include /examples/zone/speed-settings-response.raml

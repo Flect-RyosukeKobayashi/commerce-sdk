@@ -1,0 +1,16 @@
+#%RAML 1.0 DataType
+properties:
+  brotli:
+    type: string
+    description: Brotli compression setting of a zone, valid values are "on" and "off".
+    required: false
+  http2_prioritization:
+    type: string
+    description: Http2 prioritization setting for a zone, valid values are "on" and "off".
+    required: false
+
+examples:
+  example1:
+    brotli: on
+  example2:
+    http2_prioritization: on
