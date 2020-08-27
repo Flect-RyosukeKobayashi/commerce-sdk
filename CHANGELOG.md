@@ -1,4 +1,31 @@
 ## CHANGELOG
+### v2.1.0
+
+#### **API Changes**
+
+*CDN ZONES API*
+* Display names changed
+  * updateWafGroup has been changed to updateWafGroupById
+  * updateWafRule has been changed to updateWafRuleById
+  * getFirewallRule has been changed to getFirewallRuleById
+  * updateFirewallRule has been changed to updateFirewallRuleById
+* New endpoints
+
+| **Endpoint Name** | **Description** |
+| ------------- |-------------|
+| getSpeedSettingsById | Retrieve speed settings for a zone |
+| patchSpeedSettingsById | Update speed settings for a zone |
+
+*SHOPPER BASKETS API*
+* New endpoints
+
+| **Endpoint Name** | **Description** |
+| ------------- |-------------|
+| getPriceBooksForBasket | Gets applicable price books for an existing basket |
+| addPriceBooksToBasket | This method allows you to put an array of priceBookIds to an existing basket, which will be used for basket calculation |
+
+*SHOPPER LOGIN API*
+* Shopper login is currently in beta and is going through changes.
 
 ### v2.0.0
 #### GA
